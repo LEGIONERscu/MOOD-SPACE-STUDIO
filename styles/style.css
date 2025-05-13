@@ -1,0 +1,222 @@
+/* Загальні стилі */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background: #000;
+    color: #fff;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Навігація з соціальними мережами */
+.social-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 1rem;
+    display: flex;
+    gap: 1.5rem;
+    z-index: 1000;
+}
+
+.social-link {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: opacity 0.3s ease;
+}
+
+.social-link:hover {
+    opacity: 0.7;
+}
+
+/* Головний контент */
+.split-layout {
+    display: flex;
+    min-height: 100vh;
+    position: relative;
+}
+
+.left-side {
+    flex: 1;
+    background: url('../images/studio.jpg') no-repeat center center;
+    background-size: cover;
+    background-position: center center;
+    filter: grayscale(100%);
+}
+
+.right-side {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 4rem 2rem;
+    background: #000000;
+}
+
+/* Логотип */
+.logo-container {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.logo {
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: #ffffff;
+    margin-bottom: 1rem;
+    line-height: 1;
+}
+
+.subtitle {
+    font-size: clamp(0.8rem, 2vw, 1.2rem);
+    letter-spacing: 0.5em;
+    color: #ffffff;
+    font-weight: normal;
+}
+
+/* Меню кнопки */
+.menu-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+.menu-btn {
+    background: #333333;
+    color: #ffffff;
+    text-decoration: none;
+    padding: clamp(0.6rem, 2vw, 0.8rem) clamp(1.5rem, 4vw, 2rem);
+    text-align: center;
+    border-radius: 50px;
+    font-size: clamp(0.9rem, 2vw, 1rem);
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.menu-btn:hover {
+    background: #444444;
+    transform: translateY(-2px);
+}
+
+/* Соціальні посилання */
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: clamp(1rem, 3vw, 2rem);
+    margin-top: auto;
+    padding: 1rem 0;
+}
+
+.social-link {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: clamp(0.8rem, 2vw, 0.9rem);
+    transition: all 0.3s ease;
+}
+
+.social-link:hover {
+    opacity: 0.7;
+    transform: translateY(-2px);
+}
+
+/* Адаптивний дизайн */
+@media (max-width: 1024px) {
+    .right-side {
+        padding: 3rem 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .split-layout {
+        flex-direction: column;
+    }
+
+    .left-side {
+        height: 40vh;
+        min-height: 300px;
+    }
+
+    .right-side {
+        padding: 2rem 1rem;
+    }
+
+    .menu-buttons {
+        margin: 2rem auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .right-side {
+        padding: 1.5rem 1rem;
+    }
+
+    .social-links {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .menu-btn {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* Орієнтація екрану */
+@media (orientation: landscape) and (max-height: 500px) {
+    .split-layout {
+        flex-direction: row;
+    }
+
+    .left-side {
+        height: 100vh;
+    }
+
+    .right-side {
+        padding: 1rem;
+    }
+
+    .logo {
+        font-size: clamp(2rem, 4vw, 3rem);
+    }
+
+    .menu-buttons {
+        gap: 0.5rem;
+    }
+}
+
+/* Анімації */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.logo-container,
+.menu-buttons,
+.social-links {
+    animation: fadeIn 0.8s ease-out forwards;
+}
+
+.menu-buttons {
+    animation-delay: 0.2s;
+}
+
+.social-links {
+    animation-delay: 0.4s;
+} 
