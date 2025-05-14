@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
         email: bookingForm.email.value,
         phone: bookingForm.phone.value,
         date: bookingForm.date.value,
-        time: bookingForm.time.value
+        duration: bookingForm.duration.value
       };
 
       try {
