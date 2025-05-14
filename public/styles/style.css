@@ -228,4 +228,85 @@ input, select, textarea {
     .right-side {
         box-shadow: none;
     }
+}
+
+/* --- Мінімалістична головна --- */
+.split-layout.minimal {
+    display: flex;
+    min-height: 100vh;
+}
+.left-side {
+    flex: 1;
+    background: url('/images/studio.jpg') center center/cover no-repeat;
+    min-height: 100vh;
+}
+.right-side.dark-bg {
+    flex: 1;
+    background: #111;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+.logo.big {
+    font-size: 3.5rem;
+    color: #fff;
+    letter-spacing: 0.2em;
+    margin-bottom: 1rem;
+}
+.subtitle {
+    color: #bbb;
+    letter-spacing: 0.5rem;
+    margin-bottom: 2.5rem;
+}
+.main-menu-vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: flex-start;
+    margin-bottom: 2.5rem;
+}
+.menu-btn {
+    background: none;
+    color: #fff;
+    font-size: 1.3rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 0;
+    padding: 0.2em 0;
+    text-decoration: none;
+    transition: color 0.2s;
+    letter-spacing: 0.05em;
+}
+.menu-btn:hover {
+    color: #ffb347;
+}
+.social-links.vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    align-items: flex-start;
+}
+.social-link {
+    color: #bbb;
+    font-size: 1.1rem;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+.social-link:hover {
+    color: #fff;
+}
+@media (max-width: 900px) {
+    .split-layout.minimal {
+        flex-direction: column;
+    }
+    .left-side, .right-side.dark-bg {
+        min-height: 300px;
+        flex: unset;
+    }
+    .logo.big {
+        font-size: 2.2rem;
+    }
 } 
