@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Бронювання - MOOD SPACE Фотостудія</title>
+    <title>Бронювання - MOOD SPACE</title>
     <link rel="icon" type="image/png" href="images/favicon.png">
     <link rel="stylesheet" href="/styles/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800&display=swap" rel="stylesheet">
@@ -106,59 +106,40 @@
     </style>
 </head>
 <body>
-    <div class="booking-page">
-        <a href="calendar.html" class="back-btn">← Повернутися до календаря</a>
-        <h1>Бронювання фотостудії</h1>
-        <div class="booking-form">
-            <div class="booking-summary">
-                <p><strong>Дата:</strong> <span id="selectedDate"></span></p>
-                <p><strong>Час:</strong> <span id="selectedTime"></span></p>
-            </div>
-            <form id="bookingForm">
-                <div class="form-group">
-                    <label for="name">Ваше ім'я *</label>
-                    <input type="text" id="name" name="name" required>
-                </div>
-                <div class="form-group">
-                    <label for="phone">Номер телефону *</label>
-                    <input type="tel" id="phone" name="phone" required>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email *</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-                <div class="form-group">
-                    <label for="type">Тип зйомки *</label>
-                    <select id="type" name="type" required>
-                        <option value="">Оберіть тип зйомки</option>
-                        <option value="portrait">Портретна зйомка</option>
-                        <option value="family">Сімейна зйомка</option>
-                        <option value="wedding">Весільна зйомка</option>
-                        <option value="commercial">Комерційна зйомка</option>
-                        <option value="other">Інше</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="duration">Тривалість зйомки *</label>
-                    <select id="duration" name="duration" required>
-                        <option value="">Оберіть тривалість</option>
-                        <option value="1">1 година</option>
-                        <option value="2">2 години</option>
-                        <option value="3">3 години</option>
-                        <option value="4">4 години</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="notes">Додаткова інформація</label>
-                    <textarea id="notes" name="notes" placeholder="Опишіть ваші побажання або особливі вимоги..."></textarea>
-                </div>
-                <button type="submit" class="submit-btn">Забронювати</button>
-                <div id="errorMessage" class="error-message"></div>
-                <div id="successMessage" class="success-message"></div>
-            </form>
+    <main>
+        <div class="booking-layout">
+            <section class="booking-calendar">
+                <h2>Оберіть дату</h2>
+                <div id="calendar"></div>
+            </section>
+            <section class="booking-form-section">
+                <h2>Заповніть форму</h2>
+                <form id="bookingForm" autocomplete="off">
+                    <input type="hidden" id="selectedDate" name="date">
+                    <div class="form-group">
+                        <label for="name">Ім'я</label>
+                        <input type="text" id="name" name="name" required placeholder="Ваше ім'я">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required placeholder="email@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Телефон</label>
+                        <input type="tel" id="phone" name="phone" required placeholder="+380...">
+                    </div>
+                    <div class="form-group">
+                        <label for="time">Час</label>
+                        <input type="time" id="time" name="time" required>
+                    </div>
+                    <button type="submit" class="submit-btn" disabled>Забронювати</button>
+                    <div id="successMessage" class="success-message"></div>
+                    <div id="errorMessage" class="error-message"></div>
+                </form>
+            </section>
         </div>
-    </div>
-
+    </main>
     <script src="/js/booking.js"></script>
+    <script src="/js/calendar.js"></script>
 </body>
 </html> 
