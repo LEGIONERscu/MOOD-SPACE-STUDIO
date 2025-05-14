@@ -1,14 +1,5 @@
 [build]
-  command = "npm run public"
   publish = "public"
-  functions = "functions"
-
-[dev]
-  command = "npm run dev"
-  port = 3002
-  targetPort = 3002
-  publish = "public"
-  autoLaunch = true
 
 [[redirects]]
   from = "/*"
