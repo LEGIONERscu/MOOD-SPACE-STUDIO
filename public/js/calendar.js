@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             cell.style.cursor = 'not-allowed';
         }
         // Блокуємо дати, де вже заброньовано 8 годин
-        if (bookingsByDate[dateStr] && bookingsByDate[dateStr].reduce((a,b)=>a+b,0) >= 8) {
+        if (bookingsByDate[dateStr] && bookingsByDate[dateStr].length > 0 && bookingsByDate[dateStr].reduce((a,b)=>a+b,0) >= 8) {
             cell.disabled = true;
             cell.style.background = '#ffe0e0';
             cell.style.color = '#bbb';
