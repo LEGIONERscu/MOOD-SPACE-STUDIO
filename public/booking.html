@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Бронювання - MOOD SPACE Фотостудія</title>
     <link rel="icon" type="image/png" href="images/favicon.png">
-    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="/styles/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800&display=swap" rel="stylesheet">
     <style>
         .booking-page {
@@ -159,72 +159,6 @@
         </div>
     </div>
 
-    <script>
-        // Базовий URL API
-        const API_URL = '/.netlify/functions/bookings';
-
-        // Отримуємо параметри з URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const date = urlParams.get('date');
-        const time = urlParams.get('time');
-
-        // Відображаємо вибрані дату та час
-        document.getElementById('selectedDate').textContent = new Date(date).toLocaleDateString('uk-UA', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-        });
-        document.getElementById('selectedTime').textContent = time;
-
-        // Обробка форми
-        document.getElementById('bookingForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-
-            const formData = {
-                date,
-                time,
-                name: document.getElementById('name').value,
-                phone: document.getElementById('phone').value,
-                email: document.getElementById('email').value,
-                type: document.getElementById('type').value,
-                duration: document.getElementById('duration').value,
-                notes: document.getElementById('notes').value
-            };
-
-            try {
-                const response = await fetch(`${API_URL}/api/bookings`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(formData)
-                });
-
-                const data = await response.json();
-
-                if (response.ok) {
-                    // Показуємо повідомлення про успіх
-                    document.getElementById('successMessage').textContent = 'Бронювання успішно створено!';
-                    document.getElementById('successMessage').style.display = 'block';
-                    document.getElementById('errorMessage').style.display = 'none';
-                    
-                    // Очищаємо форму
-                    document.getElementById('bookingForm').reset();
-                    
-                    // Перенаправляємо на сторінку підтвердження через 2 секунди
-                    setTimeout(() => {
-                        window.location.href = 'confirmation.html';
-                    }, 2000);
-                } else {
-                    throw new Error(data.message || 'Помилка при створенні бронювання');
-                }
-            } catch (error) {
-                // Показуємо повідомлення про помилку
-                document.getElementById('errorMessage').textContent = error.message;
-                document.getElementById('errorMessage').style.display = 'block';
-                document.getElementById('successMessage').style.display = 'none';
-            }
-        });
-    </script>
+    <script src="/js/booking.js"></script>
 </body>
 </html> 
