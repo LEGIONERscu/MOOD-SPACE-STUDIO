@@ -4,7 +4,19 @@ document.addEventListener('DOMContentLoaded', () => {
   const errorMessage = document.getElementById('errorMessage');
   const submitBtn = document.querySelector('.submit-btn');
 
+  function checkFormValidity() {
+    if (!bookingForm) return;
+    const name = bookingForm.name.value.trim();
+    const email = bookingForm.email.value.trim();
+    const phone = bookingForm.phone.value.trim();
+    const date = bookingForm.date.value.trim();
+    const duration = bookingForm.duration.value.trim();
+    submitBtn.disabled = !(name && email && phone && date && duration);
+  }
+
   if (bookingForm) {
+    bookingForm.addEventListener('input', checkFormValidity);
+    checkFormValidity(); // Перевірити одразу при завантаженні
     bookingForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       submitBtn.disabled = true;
@@ -12,9 +24,9 @@ document.addEventListener('DOMContentLoaded', () => {
       errorMessage.textContent = '';
 
       const formData = {
-        name: bookingForm.name.value,
-        email: bookingForm.email.value,
-        phone: bookingForm.phone.value,
+        clientName: bookingForm.name.value,
+        clientEmail: bookingForm.email.value,
+        clientPhone: bookingForm.phone.value,
         date: bookingForm.date.value,
         duration: bookingForm.duration.value
       };
