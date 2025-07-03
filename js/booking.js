@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
       };
 
       try {
-        const response = await fetch('/.netlify/functions/create-booking', {
+        const response = await fetch('https://mood-space-studio.onrender.com/bookings', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'

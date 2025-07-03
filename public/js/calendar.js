@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     // Отримуємо всі бронювання з бекенду
     let bookings = [];
     try {
-        bookings = await fetch('/.netlify/functions/get-bookings').then(res => res.json());
+        bookings = await fetch('https://mood-space-studio.onrender.com/bookings').then(res => res.json());
     } catch (e) {
         bookings = [];
     }
