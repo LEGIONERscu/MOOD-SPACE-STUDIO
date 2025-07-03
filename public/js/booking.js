@@ -54,7 +54,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const data = await response.json();
         if (response.ok) {
           successMessage.textContent = 'Бронювання успішно створено! Перевірте email для підтвердження.';
+          successMessage.style.display = 'block';
           errorMessage.textContent = '';
+          errorMessage.style.display = 'none';
           bookingForm.reset();
           submitBtn.disabled = true;
         } else {
@@ -62,7 +64,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       } catch (error) {
         errorMessage.textContent = error.message;
+        errorMessage.style.display = 'block';
         successMessage.textContent = '';
+        successMessage.style.display = 'none';
         submitBtn.disabled = false;
       }
     });
