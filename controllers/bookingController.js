@@ -32,20 +32,24 @@ exports.createBooking = async (req, res) => {
     });
 
     // Відправка листа адміністратору
-    await transporter.sendMail({
-      from: process.env.EMAIL_USER,
-      to: process.env.ADMIN_EMAIL,
-      subject: 'Нове бронювання - MOOD SPACE',
-      html: `
-        <h1>Нове бронювання!</h1>
-        <p>Ім'я: <b>${booking.clientName || booking.name}</b></p>
-        <p>Email: <b>${booking.clientEmail || booking.email}</b></p>
-        <p>Телефон: <b>${booking.clientPhone || booking.phone}</b></p>
-        <p>Дата: <b>${booking.date.toLocaleDateString()}</b></p>
-        <p>Тривалість: <b>${booking.duration || ''}</b></p>
-        <p>Додатково: <b>${booking.notes || ''}</b></p>
-      `
-    });
+    try {
+      await transporter.sendMail({
+        from: process.env.EMAIL_USER,
+        to: process.env.ADMIN_EMAIL,
+        subject: 'Нове бронювання - MOOD SPACE',
+        html: `
+          <h1>Нове бронювання!</h1>
+          <p>Ім'я: <b>${booking.clientName || booking.name}</b></p>
+          <p>Email: <b>${booking.clientEmail || booking.email}</b></p>
+          <p>Телефон: <b>${booking.clientPhone || booking.phone}</b></p>
+          <p>Дата: <b>${booking.date.toLocaleDateString()}</b></p>
+          <p>Тривалість: <b>${booking.duration || ''}</b></p>
+          <p>Додатково: <b>${booking.notes || ''}</b></p>
+        `
+      });
+    } catch (adminMailError) {
+      console.error('Admin email error:', adminMailError);
+    }
 
     res.status(201).json(booking);
   } catch (error) {
