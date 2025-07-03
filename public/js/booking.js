@@ -23,12 +23,24 @@ document.addEventListener('DOMContentLoaded', () => {
       successMessage.textContent = '';
       errorMessage.textContent = '';
 
+      const startTime = bookingForm.startTime.value;
+      const duration = Number(bookingForm.duration.value);
+      function addHours(time, hours) {
+        const [h, m] = time.split(':').map(Number);
+        const date = new Date(0, 0, 0, h, m);
+        date.setHours(date.getHours() + hours);
+        return date.toTimeString().slice(0,5);
+      }
+      const endTime = addHours(startTime, duration);
+
       const formData = {
         clientName: bookingForm.name.value,
         clientEmail: bookingForm.email.value,
         clientPhone: bookingForm.phone.value,
         date: bookingForm.date.value,
-        duration: bookingForm.duration.value
+        duration: bookingForm.duration.value,
+        startTime,
+        endTime
       };
 
       try {
