@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
       };
 
       try {
-        const response = await fetch('/bookings', {
+        const response = await fetch('https://mood-space-studio.onrender.com/bookings', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
