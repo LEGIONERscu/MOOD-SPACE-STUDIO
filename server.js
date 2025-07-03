@@ -17,7 +17,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Підключення до MongoDB
-mongoose.connect('mongodb://localhost:27017/moodspace', {
+mongoose.connect('mongodb+srv://rodster1995:C3af1SA7SEKwRm1L@moodspace.xiodced.mongodb.net/moodspace?retryWrites=true&w=majority&appName=MOODSPACE', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
