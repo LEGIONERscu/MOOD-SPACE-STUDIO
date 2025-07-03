@@ -28,23 +28,12 @@ mongoose.connect('mongodb://localhost:27017/moodspace', {
     console.error('Помилка підключення до MongoDB:', error);
 });
 
-// Схема бронювання
-const bookingSchema = new mongoose.Schema({
-    name: { type: String, required: true },
-    email: { type: String, required: true },
-    phone: { type: String, required: true },
-    date: { type: Date, required: true },
-    time: { type: String, required: true },
-    type: { type: String, required: true },
-    duration: { type: Number, required: true },
-    notes: String,
-    createdAt: { type: Date, default: Date.now }
-});
-
-const Booking = mongoose.model('Booking', bookingSchema);
-
 // Робочі години (9:00 - 19:00)
 const WORKING_HOURS = Array.from({ length: 11 }, (_, i) => `${i + 9}:00`);
+
+// Підключення маршрутів бронювання
+const bookingsRouter = require('./routes/bookings');
+app.use('/bookings', bookingsRouter);
 
 // API endpoints
 app.get('/api/available-slots/:date', async (req, res) => {
