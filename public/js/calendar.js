@@ -1,134 +1,129 @@
-document.addEventListener('DOMContentLoaded', async function () {
-    const calendarEl = document.getElementById('calendar');
-    const selectedDateInput = document.getElementById('selectedDate');
-    const submitBtn = document.querySelector('.submit-btn');
-    const durationSelect = document.getElementById('duration');
+document.addEventListener('DOMContentLoaded', function () {
+    const calendarGrid = document.getElementById('calendarGrid');
+    const monthTitle = document.getElementById('currentMonth');
+    const prevMonthBtn = document.getElementById('prevMonth');
+    const nextMonthBtn = document.getElementById('nextMonth');
+    const timeSlots = document.getElementById('timeSlots');
+    const timeSlotsContainer = document.getElementById('timeSlotsContainer');
 
-    // Отримуємо всі бронювання з бекенду
-    let bookings = [];
-    try {
-        bookings = await fetch('/bookings').then(res => res.json());
-    } catch (e) {
-        bookings = [];
+    let currentDate = new Date();
+    const WORKING_HOURS = [
+        '09:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00','19:00'
+    ];
+
+    async function fetchBookings(year, month) {
+        const ym = `${year}-${String(month+1).padStart(2,'0')}`;
+        const res = await fetch(`/bookings?month=${ym}`);
+        if (!res.ok) return [];
+        return await res.json();
     }
 
-    // Групуємо бронювання по датах
-    const bookingsByDate = {};
-    bookings.forEach(b => {
-        const date = b.date.slice(0, 10); // YYYY-MM-DD
-        if (!bookingsByDate[date]) bookingsByDate[date] = [];
-        bookingsByDate[date].push(Number(b.duration));
+    function formatDate(date) {
+        return date.toISOString().split('T')[0];
+    }
+
+    function getMonthName(month) {
+        return ['Січень','Лютий','Березень','Квітень','Травень','Червень','Липень','Серпень','Вересень','Жовтень','Листопад','Грудень'][month];
+    }
+
+    async function renderCalendar(year, month) {
+        monthTitle.textContent = `${getMonthName(month)} ${year}`;
+        // Очищаємо сітку, залишаючи заголовки днів тижня
+        while (calendarGrid.children.length > 7) {
+            calendarGrid.removeChild(calendarGrid.lastChild);
+        }
+        // Отримуємо бронювання за місяць
+        const bookings = await fetchBookings(year, month);
+        // Групуємо по датах
+        const bookingsByDate = {};
+        bookings.forEach(b => {
+            const date = b.date.slice(0,10);
+            if (!bookingsByDate[date]) bookingsByDate[date] = [];
+            bookingsByDate[date].push({start: b.startTime, end: b.endTime});
+        });
+        // Дати місяця
+        const firstDay = new Date(year, month, 1);
+        const lastDay = new Date(year, month+1, 0);
+        const daysInMonth = lastDay.getDate();
+        const today = new Date();
+        // Порожні клітинки до першого дня місяця
+        let startDay = firstDay.getDay() || 7;
+        for (let i = 1; i < startDay; i++) {
+            const empty = document.createElement('div');
+            empty.className = 'calendar-day';
+            calendarGrid.appendChild(empty);
+        }
+        // Дні місяця
+        for (let day = 1; day <= daysInMonth; day++) {
+            const date = new Date(year, month, day);
+            const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+            const cell = document.createElement('div');
+            cell.className = 'calendar-day';
+            cell.textContent = day;
+            // Сьогодні
+            if (date.toDateString() === today.toDateString()) {
+                cell.classList.add('today');
+            }
+            // Минулі дні
+            if (date < new Date(today.getFullYear(), today.getMonth(), today.getDate())) {
+                cell.classList.add('booked');
+                cell.style.cursor = 'not-allowed';
+            }
+            // Дні з бронюваннями
+            if (bookingsByDate[dateStr] && bookingsByDate[dateStr].length > 0) {
+                cell.classList.add('booked');
+                cell.style.background = '#ffe0e0';
+            }
+            // Клік по дню
+            if (date >= new Date(today.getFullYear(), today.getMonth(), today.getDate())) {
+                cell.addEventListener('click', () => {
+                    // Показати слоти
+                    showTimeSlots(dateStr, bookingsByDate[dateStr] || []);
+                    // Виділити день
+                    document.querySelectorAll('.calendar-day').forEach(d => d.classList.remove('selected'));
+                    cell.classList.add('selected');
+                });
+            }
+            calendarGrid.appendChild(cell);
+        }
+    }
+
+    function showTimeSlots(dateStr, busyIntervals) {
+        timeSlots.classList.add('active');
+        timeSlotsContainer.innerHTML = '';
+        WORKING_HOURS.forEach(time => {
+            // Перевіряємо, чи слот зайнятий
+            let isBusy = false;
+            for (const b of busyIntervals) {
+                if (time >= b.start && time < b.end) {
+                    isBusy = true;
+                    break;
+                }
+            }
+            const slot = document.createElement('div');
+            slot.className = 'time-slot' + (isBusy ? ' booked' : '');
+            slot.textContent = time;
+            if (!isBusy) {
+                slot.addEventListener('click', () => {
+                    document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
+                    slot.classList.add('selected');
+                    // Тут можна додати дію для бронювання
+                });
+            }
+            timeSlotsContainer.appendChild(slot);
+        });
+    }
+
+    // Навігація по місяцях
+    prevMonthBtn.addEventListener('click', () => {
+        currentDate.setMonth(currentDate.getMonth() - 1);
+        renderCalendar(currentDate.getFullYear(), currentDate.getMonth());
+    });
+    nextMonthBtn.addEventListener('click', () => {
+        currentDate.setMonth(currentDate.getMonth() + 1);
+        renderCalendar(currentDate.getFullYear(), currentDate.getMonth());
     });
 
-    // Створюємо простий календар на поточний місяць
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = today.getMonth();
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-    let selectedDay = null;
-
-    const calendarGrid = document.createElement('div');
-    calendarGrid.style.display = 'grid';
-    calendarGrid.style.gridTemplateColumns = 'repeat(7, 1fr)';
-    calendarGrid.style.gap = '6px';
-
-    // Дні тижня
-    const weekDays = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Нд'];
-    weekDays.forEach(day => {
-        const wd = document.createElement('div');
-        wd.textContent = day;
-        wd.style.textAlign = 'center';
-        wd.style.fontWeight = 'bold';
-        wd.style.color = '#888';
-        calendarGrid.appendChild(wd);
-    });
-
-    // Порожні клітинки до першого дня місяця
-    const firstDay = new Date(year, month, 1).getDay() || 7;
-    for (let i = 1; i < firstDay; i++) {
-        const empty = document.createElement('div');
-        calendarGrid.appendChild(empty);
-    }
-
-    // Дні місяця
-    for (let day = 1; day <= daysInMonth; day++) {
-        const date = new Date(year, month, day);
-        const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
-        const cell = document.createElement('button');
-        cell.type = 'button';
-        cell.textContent = day;
-        cell.style.padding = '0.7em 0';
-        cell.style.border = 'none';
-        cell.style.borderRadius = '6px';
-        cell.style.background = '#fff';
-        cell.style.cursor = 'pointer';
-        cell.style.fontWeight = '500';
-        cell.style.transition = 'background 0.2s, color 0.2s';
-        cell.style.color = '#222';
-
-        // Неактивні минулі дні
-        if (date < today.setHours(0,0,0,0)) {
-            cell.disabled = true;
-            cell.style.background = '#eee';
-            cell.style.color = '#bbb';
-            cell.style.cursor = 'not-allowed';
-        }
-        // Блокуємо дати, де вже заброньовано 8 годин
-        if (bookingsByDate[dateStr] && bookingsByDate[dateStr].length > 0 && bookingsByDate[dateStr].reduce((a,b)=>a+b,0) >= 8) {
-            cell.disabled = true;
-            cell.style.background = '#ffe0e0';
-            cell.style.color = '#bbb';
-            cell.style.cursor = 'not-allowed';
-        }
-
-        cell.addEventListener('click', function () {
-            // Знімаємо виділення з попереднього
-            if (selectedDay) selectedDay.style.background = '#fff';
-            cell.style.background = '#111';
-            cell.style.color = '#fff';
-            selectedDay = cell;
-            // Записуємо дату у приховане поле
-            selectedDateInput.value = dateStr;
-            // Оновлюємо доступні тривалості
-            updateDurationOptions(dateStr);
-            // Активуємо кнопку, якщо всі поля заповнені
-            checkFormValidity();
-        });
-        calendarGrid.appendChild(cell);
-    }
-
-    calendarEl.appendChild(calendarGrid);
-
-    function updateDurationOptions(dateStr) {
-        // Розраховуємо зайняті години на цю дату
-        const booked = bookingsByDate[dateStr] || [];
-        const bookedSum = booked.reduce((a,b)=>a+b,0);
-        // Очищаємо select
-        Array.from(durationSelect.options).forEach((opt, i) => {
-            if (i === 0) return; // placeholder
-            const val = Number(opt.value);
-            // Якщо не вистачає годин — блокуємо
-            opt.disabled = (val > (8 - bookedSum));
-        });
-        durationSelect.value = '';
-    }
-
-    // Деактивуємо кнопку, якщо дата не вибрана
-    function checkFormValidity() {
-        const form = document.getElementById('bookingForm');
-        if (
-            selectedDateInput.value &&
-            form.name.value &&
-            form.email.value &&
-            form.phone.value &&
-            form.duration.value
-        ) {
-            submitBtn.disabled = false;
-        } else {
-            submitBtn.disabled = true;
-        }
-    }
-
-    document.getElementById('bookingForm').addEventListener('input', checkFormValidity);
+    // Початковий рендер
+    renderCalendar(currentDate.getFullYear(), currentDate.getMonth());
 }); 

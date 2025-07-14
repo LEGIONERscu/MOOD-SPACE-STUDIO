@@ -57,10 +57,18 @@ exports.createBooking = async (req, res) => {
   }
 };
 
-// Отримання всіх бронювань
+// Отримання всіх бронювань (з фільтрацією по місяцю)
 exports.getBookings = async (req, res) => {
   try {
-    const bookings = await Booking.find().sort({ date: 1 });
+    let query = {};
+    if (req.query.month) {
+      // month у форматі YYYY-MM
+      const [year, month] = req.query.month.split('-').map(Number);
+      const start = new Date(year, month - 1, 1);
+      const end = new Date(year, month, 1);
+      query.date = { $gte: start, $lt: end };
+    }
+    const bookings = await Booking.find(query).sort({ date: 1 });
     res.json(bookings);
   } catch (error) {
     res.status(500).json({ message: error.message });
