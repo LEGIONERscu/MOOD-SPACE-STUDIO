@@ -20,13 +20,15 @@ exports.createBooking = async (req, res) => {
     await transporter.sendMail({
       from: process.env.EMAIL_USER,
       to: booking.clientEmail,
-      subject: 'Підтвердження бронювання - MOOD SPACE',
+      subject: 'Інформація про замовлення',
       html: `
-        <h1>Дякуємо за бронювання у MOOD SPACE!</h1>
-        <p>Ваше бронювання на <b>${booking.date.toLocaleDateString()}</b> з <b>${booking.startTime || ''}</b> до <b>${booking.endTime || ''}</b> отримано.</p>
-        <p>Для підтвердження бронювання необхідно оплатити завдаток <b>500 грн</b> на картку:</p>
-        <p><b>4441 1144 1234 5678</b> (ПриватБанк, отримувач: Іваненко Іван)</p>
-        <p>Після оплати, будь ласка, надішліть скріншот чеку у відповідь на цей лист або у Instagram.</p>
+        <h2>Інформація про замовлення</h2>
+        <p>Працюємо за 100% передоплатою в розмірі <b>700 грн/год</b></p>
+        <p><b>4149609027437336</b> Тимоніна Ірина Валинтинівна</p>
+        <hr>
+        <p><b>Дата:</b> ${booking.date.toLocaleDateString()}<br>
+        <b>Час:</b> ${booking.startTime || ''} - ${booking.endTime || ''}<br>
+        <b>Тривалість:</b> ${booking.duration || ''} год.</p>
         <p>Дякуємо за вибір нашої студії!</p>
       `
     });
