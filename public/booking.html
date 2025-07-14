@@ -13,50 +13,123 @@
             max-width: 800px;
             margin: 0 auto;
         }
-
+        .calendar-container {
+            width: 100%;
+            margin: 2rem 0;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 2rem;
+        }
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+        }
+        .calendar-day {
+            aspect-ratio: 1;
+            border: 1px solid #eee;
+            padding: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .calendar-day:hover {
+            background: #f8f8f8;
+        }
+        .calendar-day.today {
+            background: #f0f0f0;
+            font-weight: bold;
+        }
+        .calendar-day.booked {
+            background: #ffe0e0;
+            cursor: not-allowed;
+        }
+        .calendar-day.available {
+            background: #e0ffe0;
+        }
+        .calendar-day.selected {
+            background: #111;
+            color: #fff;
+        }
+        .calendar-day-header {
+            text-align: center;
+            font-weight: bold;
+            padding: 10px;
+            background: #f8f8f8;
+        }
+        .month-selector {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .month-selector button {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+        .month-selector h2 {
+            margin: 0;
+            min-width: 200px;
+            text-align: center;
+        }
+        .time-slots {
+            margin-top: 2rem;
+            display: none;
+        }
+        .time-slots.active {
+            display: block;
+        }
+        .time-slot {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            margin: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .time-slot:hover {
+            background: #f0f0f0;
+        }
+        .time-slot.booked {
+            background: #ffe0e0;
+            cursor: not-allowed;
+        }
+        .time-slot.selected {
+            background: #000;
+            color: #fff;
+        }
         .booking-form {
             background: #fff;
             padding: 2rem;
             border-radius: 10px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-top: 2rem;
         }
-
         .form-group {
             margin-bottom: 1.5rem;
         }
-
         .form-group label {
             display: block;
             margin-bottom: 0.5rem;
             font-weight: bold;
         }
-
         .form-group input,
-        .form-group select,
-        .form-group textarea {
+        .form-group select {
             width: 100%;
             padding: 0.8rem;
             border: 1px solid #ddd;
             border-radius: 5px;
             font-size: 1rem;
         }
-
-        .form-group textarea {
-            height: 100px;
-            resize: vertical;
-        }
-
-        .booking-summary {
-            background: #f8f8f8;
-            padding: 1rem;
-            border-radius: 5px;
-            margin-bottom: 1.5rem;
-        }
-
-        .booking-summary p {
-            margin: 0.5rem 0;
-        }
-
         .submit-btn {
             background: #000;
             color: #fff;
@@ -68,38 +141,17 @@
             width: 100%;
             transition: background 0.3s ease;
         }
-
-        .submit-btn:hover {
-            background: #333;
+        .submit-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
         }
-
-        .back-btn {
-            display: inline-block;
-            margin-bottom: 1rem;
-            color: #000;
-            text-decoration: none;
-            font-size: 1rem;
-        }
-
-        .back-btn:hover {
-            text-decoration: underline;
-        }
-
-        h1 {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 2rem;
-            margin-bottom: 2rem;
-            text-align: center;
-        }
-
-        .error-message {
-            color: #ff0000;
+        .success-message {
+            color: #008000;
             margin-top: 0.5rem;
             display: none;
         }
-
-        .success-message {
-            color: #008000;
+        .error-message {
+            color: #ff0000;
             margin-top: 0.5rem;
             display: none;
         }
@@ -107,67 +159,111 @@
 </head>
 <body>
     <main>
-        <div class="booking-layout">
-            <section class="booking-calendar">
-                <a href="index.html" class="back-btn">← На головну</a>
-                <h2>Оберіть дату</h2>
-                <div id="calendar"></div>
-            </section>
-            <section class="booking-form-section" style="margin: 0 auto; float: none;">
-                <h2>Заповніть форму</h2>
-                <form id="bookingForm" autocomplete="off">
-                    <input type="hidden" id="selectedDate" name="date">
-                    <div class="form-group">
-                        <label for="name">Ім'я</label>
-                        <input type="text" id="name" name="name" required placeholder="Ваше ім'я">
+        <div class="booking-page">
+            <a href="index.html" class="back-btn">← На головну</a>
+            <h1>Бронювання</h1>
+            <div class="calendar-container">
+                <div class="calendar-header">
+                    <div class="month-selector">
+                        <button id="prevMonth">←</button>
+                        <h2 id="currentMonth">Місяць</h2>
+                        <button id="nextMonth">→</button>
                     </div>
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email" required placeholder="email@example.com">
-                    </div>
-                    <div class="form-group">
-                        <label for="phone">Телефон</label>
-                        <input type="tel" id="phone" name="phone" required placeholder="+380...">
-                    </div>
-                    <div class="form-group">
-                        <label for="duration">Тривалість (годин)</label>
-                        <select id="duration" name="duration" required>
-                            <option value="">Оберіть тривалість</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="startTime">Початок бронювання</label>
-                        <select id="startTime" name="startTime" required>
-                            <option value="">Оберіть час</option>
-                            <option value="09:00">09:00</option>
-                            <option value="10:00">10:00</option>
-                            <option value="11:00">11:00</option>
-                            <option value="12:00">12:00</option>
-                            <option value="13:00">13:00</option>
-                            <option value="14:00">14:00</option>
-                            <option value="15:00">15:00</option>
-                            <option value="16:00">16:00</option>
-                            <option value="17:00">17:00</option>
-                            <option value="18:00">18:00</option>
-                            <option value="19:00">19:00</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="submit-btn" disabled>Забронювати</button>
-                    <div id="successMessage" class="success-message"></div>
-                    <div id="errorMessage" class="error-message"></div>
-                </form>
-            </section>
+                </div>
+                <div class="calendar-grid" id="calendarGrid">
+                    <div class="calendar-day-header">Пн</div>
+                    <div class="calendar-day-header">Вт</div>
+                    <div class="calendar-day-header">Ср</div>
+                    <div class="calendar-day-header">Чт</div>
+                    <div class="calendar-day-header">Пт</div>
+                    <div class="calendar-day-header">Сб</div>
+                    <div class="calendar-day-header">Нд</div>
+                </div>
+                <div class="time-slots" id="timeSlots">
+                    <h3>Оберіть годину:</h3>
+                    <div id="timeSlotsContainer"></div>
+                </div>
+            </div>
+            <form id="bookingForm" class="booking-form" autocomplete="off">
+                <input type="hidden" id="selectedDate" name="date">
+                <input type="hidden" id="selectedTime" name="startTime">
+                <div class="form-group">
+                    <label for="name">Ім'я</label>
+                    <input type="text" id="name" name="name" required placeholder="Ваше ім'я">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required placeholder="email@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="phone">Телефон</label>
+                    <input type="tel" id="phone" name="phone" required placeholder="+380...">
+                </div>
+                <div class="form-group">
+                    <label for="duration">Тривалість (годин)</label>
+                    <select id="duration" name="duration" required>
+                        <option value="">Оберіть тривалість</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                    </select>
+                </div>
+                <button type="submit" class="submit-btn" disabled>Забронювати</button>
+                <div id="successMessage" class="success-message"></div>
+                <div id="errorMessage" class="error-message"></div>
+            </form>
         </div>
     </main>
+    <script src="/js/calendar.js"></script>
     <script src="/js/booking-railway.js"></script>
-    <!-- <script src="/js/calendar.js"></script> -->
+    <script>
+    // Інтеграція вибору дати і часу з формою
+    document.addEventListener('DOMContentLoaded', function () {
+        const bookingForm = document.getElementById('bookingForm');
+        const selectedDateInput = document.getElementById('selectedDate');
+        const selectedTimeInput = document.getElementById('selectedTime');
+        const durationInput = document.getElementById('duration');
+        // Коли користувач вибирає слот часу
+        document.getElementById('timeSlotsContainer').addEventListener('click', function(e) {
+            if (e.target.classList.contains('time-slot') && !e.target.classList.contains('booked')) {
+                selectedTimeInput.value = e.target.textContent;
+                checkFormValidity();
+            }
+        });
+        // Коли користувач вибирає день у календарі
+        document.getElementById('calendarGrid').addEventListener('click', function(e) {
+            if (e.target.classList.contains('calendar-day') && !e.target.classList.contains('booked')) {
+                selectedDateInput.value = formatDateFromDay(e.target.textContent);
+                checkFormValidity();
+            }
+        });
+        // Коли змінюється тривалість
+        durationInput.addEventListener('change', function() {
+            checkFormValidity();
+        });
+        function checkFormValidity() {
+            const name = bookingForm.name.value.trim();
+            const email = bookingForm.email.value.trim();
+            const phone = bookingForm.phone.value.trim();
+            const date = selectedDateInput.value.trim();
+            const duration = durationInput.value.trim();
+            const time = selectedTimeInput.value.trim();
+            bookingForm.querySelector('.submit-btn').disabled = !(name && email && phone && date && duration && time);
+        }
+        function formatDateFromDay(day) {
+            // Повертає YYYY-MM-DD для вибраного дня поточного місяця
+            const currentMonth = window.currentDate ? window.currentDate : new Date();
+            const year = currentMonth.getFullYear();
+            const month = String(currentMonth.getMonth() + 1).padStart(2, '0');
+            const dayStr = String(day).padStart(2, '0');
+            return `${year}-${month}-${dayStr}`;
+        }
+    });
+    </script>
 </body>
 </html> 
