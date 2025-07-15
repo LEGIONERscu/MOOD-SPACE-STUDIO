@@ -50,7 +50,7 @@
 
         .gallery-item {
             position: relative;
-            height: 350px;
+            height: 500px;
             background: #e0e0e0;
             border-radius: 10px;
             overflow: hidden;
@@ -78,6 +78,36 @@
             background-color: rgba(0, 0, 0, 0.5);
             padding: 10px 20px;
             border-radius: 5px;
+        }
+
+        /* --- Модальне вікно для фото --- */
+        .gallery-modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0; top: 0; width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.85);
+            align-items: center;
+            justify-content: center;
+        }
+        .gallery-modal.active {
+            display: flex;
+        }
+        .gallery-modal img {
+            max-width: 90vw;
+            max-height: 90vh;
+            border-radius: 10px;
+            box-shadow: 0 2px 20px #000a;
+        }
+        .gallery-modal-close {
+            position: absolute;
+            top: 30px; right: 40px;
+            font-size: 2.5rem;
+            color: #fff;
+            cursor: pointer;
+            z-index: 10001;
+            background: none;
+            border: none;
         }
 
         @media (max-width: 768px) {
@@ -122,5 +152,27 @@
             <div class="gallery-item"><img src="images/IMG_3263.jpg" alt="Фото 10"><div class="gallery-label">MOOD SPACE</div></div>
         </div>
     </div>
+    <div class="gallery-modal" id="galleryModal">
+        <button class="gallery-modal-close" id="galleryModalClose">&times;</button>
+        <img src="" alt="Велике фото" id="galleryModalImg">
+    </div>
+    <script>
+    document.querySelectorAll('.gallery-item img').forEach(img => {
+        img.addEventListener('click', function() {
+            document.getElementById('galleryModalImg').src = this.src;
+            document.getElementById('galleryModal').classList.add('active');
+        });
+    });
+    document.getElementById('galleryModalClose').onclick = function() {
+        document.getElementById('galleryModal').classList.remove('active');
+        document.getElementById('galleryModalImg').src = '';
+    };
+    document.getElementById('galleryModal').onclick = function(e) {
+        if (e.target === this) {
+            this.classList.remove('active');
+            document.getElementById('galleryModalImg').src = '';
+        }
+    };
+    </script>
 </body>
 </html> 
