@@ -73,6 +73,20 @@
             color: #cccccc;
         }
 
+        .gallery-label {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #cccccc;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 10px 20px;
+            border-radius: 5px;
+            z-index: 1;
+        }
+
         @media (max-width: 768px) {
             .gallery-grid {
                 grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -104,16 +118,16 @@
     
     <div class="gallery-container">
         <div class="gallery-grid">
-            <div class="gallery-item"><img src="images/IMG_2867.jpg" alt="Фото 1" style="width:100%;height:100%;object-fit:cover;"></div>
-            <div class="gallery-item"><img src="images/IMG_3074.jpg" alt="Фото 2" style="width:100%;height:100%;object-fit:cover;"></div>
-            <div class="gallery-item"><img src="images/IMG_3075.jpg" alt="Фото 3" style="width:100%;height:100%;object-fit:cover;"></div>
-            <div class="gallery-item"><img src="images/IMG_3076.jpg" alt="Фото 4" style="width:100%;height:100%;object-fit:cover;"></div>
-            <div class="gallery-item"><img src="images/IMG_3249.jpg" alt="Фото 5" style="width:100%;height:100%;object-fit:cover;"></div>
-            <div class="gallery-item"><img src="images/IMG_3252.jpg" alt="Фото 6" style="width:100%;height:100%;object-fit:cover;"></div>
-            <div class="gallery-item"><img src="images/IMG_3256.jpg" alt="Фото 7" style="width:100%;height:100%;object-fit:cover;"></div>
-            <div class="gallery-item"><img src="images/IMG_3258.jpg" alt="Фото 8" style="width:100%;height:100%;object-fit:cover;"></div>
-            <div class="gallery-item"><img src="images/IMG_3261.jpg" alt="Фото 9" style="width:100%;height:100%;object-fit:cover;"></div>
-            <div class="gallery-item"><img src="images/IMG_3263.jpg" alt="Фото 10" style="width:100%;height:100%;object-fit:cover;"></div>
+            <div class="gallery-item"><img src="images/IMG_2867.jpg" alt="Фото 1"><div class="gallery-label">MOOD SPACE</div></div>
+            <div class="gallery-item"><img src="images/IMG_3074.jpg" alt="Фото 2"><div class="gallery-label">MOOD SPACE</div></div>
+            <div class="gallery-item"><img src="images/IMG_3075.jpg" alt="Фото 3"><div class="gallery-label">MOOD SPACE</div></div>
+            <div class="gallery-item"><img src="images/IMG_3076.jpg" alt="Фото 4"><div class="gallery-label">MOOD SPACE</div></div>
+            <div class="gallery-item"><img src="images/IMG_3249.jpg" alt="Фото 5"><div class="gallery-label">MOOD SPACE</div></div>
+            <div class="gallery-item"><img src="images/IMG_3252.jpg" alt="Фото 6"><div class="gallery-label">MOOD SPACE</div></div>
+            <div class="gallery-item"><img src="images/IMG_3256.jpg" alt="Фото 7"><div class="gallery-label">MOOD SPACE</div></div>
+            <div class="gallery-item"><img src="images/IMG_3258.jpg" alt="Фото 8"><div class="gallery-label">MOOD SPACE</div></div>
+            <div class="gallery-item"><img src="images/IMG_3261.jpg" alt="Фото 9"><div class="gallery-label">MOOD SPACE</div></div>
+            <div class="gallery-item"><img src="images/IMG_3263.jpg" alt="Фото 10"><div class="gallery-label">MOOD SPACE</div></div>
         </div>
     </div>
 </body>
