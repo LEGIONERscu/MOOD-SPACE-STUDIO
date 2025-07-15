@@ -283,16 +283,15 @@
         <div class="booking-header">
             <span class="booking-title">Бронювання</span>
         </div>
-        <form id="bookingForm" style="max-width:400px;margin:2rem auto;">
-          <input type="text" name="name" placeholder="Ваше ім'я" required style="width:100%;margin-bottom:10px;">
-          <input type="email" name="email" placeholder="Email" required style="width:100%;margin-bottom:10px;">
-          <input type="date" name="date" required style="width:100%;margin-bottom:10px;">
-          <input type="time" name="startTime" required style="width:100%;margin-bottom:10px;">
-          <input type="time" name="endTime" required style="width:100%;margin-bottom:10px;">
-          <textarea name="description" placeholder="Деталі" style="width:100%;margin-bottom:10px;"></textarea>
-          <button type="submit" style="width:100%;">Забронювати</button>
-        </form>
-        <div id="bookingResult" style="text-align:center;margin-top:1rem;"></div>
+        <div class="calendar-iframe-container" style="display: flex; justify-content: center; margin: 2rem 0;">
+            <iframe src="https://calendar.google.com/calendar/embed?height=600&wkst=2&ctz=Europe%2FKiev&showPrint=0&src=bW9vZHNwYWNlcnZAZ21haWwuY29t&color=%23039be5"
+                style="border-width:0; width: 100%; min-height: 600px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.07);"
+                frameborder="0" scrolling="no"></iframe>
+        </div>
+        <div style="text-align:center; margin: 2rem 0; font-size:1.2rem; color:#333;">
+            Щоб забронювати студію, звертайтесь до адміністратора в <a href="https://www.instagram.com/mood.space.rv?igsh=MTdnY2s1bDg4Zm9rcw%3D%3D" target="_blank" style="color:#039be5;">Instagram</a>
+            або за телефоном <a href="tel:+380000000000" style="color:#039be5;">+38 (000) 000-00-00</a>
+        </div>
     </main>
     <script>
     document.getElementById('bookingForm').onsubmit = async function(e) {

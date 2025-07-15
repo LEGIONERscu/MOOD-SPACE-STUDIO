@@ -486,6 +486,15 @@ input, select, textarea {
     }
 }
 
+@media (max-width: 700px) {
+  .split-layout {
+    flex-direction: column-reverse !important;
+  }
+  .left-side, .right-side {
+    min-height: 40vh;
+  }
+}
+
 /* --- ВИПРАВЛЕННЯ ГАЛЕРЕЇ --- */
 .gallery-item {
     position: relative;
