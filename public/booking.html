@@ -284,62 +284,8 @@
             <a href="index.html" class="main-back-btn">← На головну</a>
             <span class="booking-title">Бронювання</span>
         </div>
-        <div class="booking-content">
-            <div class="calendar-container">
-                <div class="calendar-header">
-                    <div class="month-selector">
-                        <button id="prevMonth">←</button>
-                        <h2 id="currentMonth">Місяць</h2>
-                        <button id="nextMonth">→</button>
-                    </div>
-                </div>
-                <div class="calendar-grid" id="calendarGrid">
-                    <div class="calendar-day-header">Пн</div>
-                    <div class="calendar-day-header">Вт</div>
-                    <div class="calendar-day-header">Ср</div>
-                    <div class="calendar-day-header">Чт</div>
-                    <div class="calendar-day-header">Пт</div>
-                    <div class="calendar-day-header">Сб</div>
-                    <div class="calendar-day-header">Нд</div>
-                </div>
-                <div class="time-slots" id="timeSlots">
-                    <h3>Оберіть годину:</h3>
-                    <div id="timeSlotsContainer"></div>
-                </div>
-            </div>
-            <form id="bookingForm" class="booking-form" autocomplete="off">
-                <input type="hidden" id="selectedDate" name="date">
-                <input type="hidden" id="selectedTime" name="startTime">
-                <div class="form-group">
-                    <label for="name">Ім'я</label>
-                    <input type="text" id="name" name="name" required placeholder="Ваше ім'я">
-                </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" required placeholder="email@example.com">
-                </div>
-                <div class="form-group">
-                    <label for="phone">Телефон</label>
-                    <input type="tel" id="phone" name="phone" required placeholder="+380...">
-                </div>
-                <div class="form-group">
-                    <label for="duration">Тривалість (годин)</label>
-                    <select id="duration" name="duration" required>
-                        <option value="">Оберіть тривалість</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                    </select>
-                </div>
-                <button type="submit" class="submit-btn" disabled>Забронювати</button>
-                <div id="successMessage" class="success-message"></div>
-                <div id="errorMessage" class="error-message"></div>
-            </form>
+        <div class="calendar-iframe-container" style="display: flex; justify-content: center; margin: 2rem 0;">
+            <iframe src="https://calendar.google.com/calendar/embed?height=600&wkst=2&ctz=Europe%2FKiev&showPrint=0&src=bW9vZHNwYWNlcnZAZ21haWwuY29t&color=%23039be5" style="border-width:0; width: 100%; min-height: 600px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.07);" frameborder="0" scrolling="no"></iframe>
         </div>
     </main>
     <script src="/js/calendar.js"></script>
