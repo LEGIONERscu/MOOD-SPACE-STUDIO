@@ -281,13 +281,37 @@
     </header>
     <main class="booking-main">
         <div class="booking-header">
-            <a href="index.html" class="main-back-btn">← На головну</a>
             <span class="booking-title">Бронювання</span>
         </div>
-        <div class="calendar-iframe-container" style="display: flex; justify-content: center; margin: 2rem 0;">
-            <iframe src="https://calendar.google.com/calendar/embed?height=600&wkst=2&ctz=Europe%2FKiev&showPrint=0&src=bW9vZHNwYWNlcnZAZ21haWwuY29t&color=%23039be5" style="border-width:0; width: 100%; min-height: 600px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.07);" frameborder="0" scrolling="no"></iframe>
-        </div>
+        <form id="bookingForm" style="max-width:400px;margin:2rem auto;">
+          <input type="text" name="name" placeholder="Ваше ім'я" required style="width:100%;margin-bottom:10px;">
+          <input type="email" name="email" placeholder="Email" required style="width:100%;margin-bottom:10px;">
+          <input type="date" name="date" required style="width:100%;margin-bottom:10px;">
+          <input type="time" name="startTime" required style="width:100%;margin-bottom:10px;">
+          <input type="time" name="endTime" required style="width:100%;margin-bottom:10px;">
+          <textarea name="description" placeholder="Деталі" style="width:100%;margin-bottom:10px;"></textarea>
+          <button type="submit" style="width:100%;">Забронювати</button>
+        </form>
+        <div id="bookingResult" style="text-align:center;margin-top:1rem;"></div>
     </main>
+    <script>
+    document.getElementById('bookingForm').onsubmit = async function(e) {
+      e.preventDefault();
+      const formData = Object.fromEntries(new FormData(this));
+      const res = await fetch('http://localhost:3002/api/book', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+      const data = await res.json();
+      if (data.success) {
+        document.getElementById('bookingResult').innerHTML = 'Бронювання успішне!';
+        this.reset();
+      } else {
+        document.getElementById('bookingResult').innerHTML = 'Помилка: ' + data.error;
+      }
+    };
+    </script>
     <script src="/js/calendar.js"></script>
     <script src="/js/booking-railway.js"></script>
     <script>
